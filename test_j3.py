@@ -210,5 +210,6 @@ class TestJ3(unittest.TestCase):
             self.assertTrue('size' in info_map)
             self.assertTrue('comment' in info_map)
 
+
 if __name__ == '__main__':
     unittest.main()

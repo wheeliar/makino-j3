@@ -11,7 +11,7 @@ import traceback
 
 class J3:
 
-    #同一スレッド内で同一ホストの接続は同じインスタンスを使う
+    #同一线程内的同一主机的连接使用同一实例。
     __connections = {}
     @classmethod
     def get_connection(cls, host):
@@ -34,7 +34,7 @@ class J3:
     def __init__(self, host):
         '''
         Args:
-            host: IPアドレス:ポート番号
+            host: IP地址：端口号
         '''
         self.__ip, self.__port = host.split(':')
 
@@ -43,10 +43,11 @@ class J3:
 
     def __del__(self):
         '''アプリケーション終了時、またはオブジェクトがどこからも参照されていなくなった際に実行される。'''
+        '''在应用程序结束时或当对象不再被任何地方引用时执行。'''
         self.close()
 
     def __open(self):
-        '''NCに接続し、ライブラリハンドルを取得します。'''
+        '''连接到NC，获取库句柄handle。。'''
         if not self.__isopen:
             self.__dll.cnc_allclibhndl3.restype = c_short
             self.__dll.cnc_allclibhndl3.argtypes = (c_char_p, c_ushort, c_long, POINTER(c_ushort))
@@ -58,6 +59,7 @@ class J3:
 
     def close(self):
         '''ライブラリハンドルを解放します。'''
+        '''释放句柄'''
         if self.__isopen:
             self.__dll.cnc_freelibhndl.restype = c_short
             self.__dll.cnc_freelibhndl.argtypes = (c_ushort,)
@@ -68,10 +70,10 @@ class J3:
             pass
 
     def is_open(self):
-        '''__open()処理後、接続が開いているか確認する。
+        '''__open()処理後、接続が開いているか確認する。处理完毕后，检查连接是否已打开。
         
         Return:
-            bool: 接続が開いているならTrue
+            bool: 接続が開いているならTrue。如果连接open，为true。
         '''
         with self.__lock:
             try:
@@ -80,7 +82,7 @@ class J3:
                 pass
             return self.__isopen
 
-    # --- NCプログラムファイル操作関連 ---
+    # --- NCプログラムファイル操作関連 ------ NC programme file operation related ---.
 
     def exist_file(self, path):
         '''NCプログラム検索し、存在判定をboolで返す。
