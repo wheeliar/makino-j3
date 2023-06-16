@@ -21,11 +21,13 @@ class ODBSpeed_T(ctypes.Structure):
         return f'ODBSpeed_T({self.actf!r},{self.acts!r})'
 
 
-fwl = ctypes.WinDLL('./Fwlibe64.dll')  # WinDLL for WINAPI, which is __stdcall (matters on 32-bit Python)
-fwl.cnc_rdspeed.argtypes = ctypes.c_ushort, ctypes.c_short, ctypes.POINTER(ODBSpeed_T)
-fwl.cnc_rdspeed.restype = ctypes.c_short
+mylib = ctypes.WinDLL('./Fwlib32.dll')
+
+mylib.cnc_rdspeed.argtypes = ctypes.c_ushort, ctypes.c_short, ctypes.POINTER(ODBSpeed_T)
+mylib.cnc_rdspeed.restype = ctypes.c_short
+
 
 speed = ODBSpeed_T()  # Create an instance
-r = fwl.cnc_rdspeed(333, 111, ctypes.byref(speed))  # pass instance by reference
+r = mylib.cnc_rdspeed(ctypes.c_ushort(speed), 1, ctypes.byref(speed))  # pass instance by reference
 print(r)
 print(speed)
