@@ -24,7 +24,7 @@ mylib.cnc_allclibhndl3.restype = c_ushort
 
 handle = c_ushort()
 odbpos = ODBPOS()
-ret = mylib.cnc_allclibhndl3(b'192.168.1.10', 8193, 10, byref(handle))
+ret = mylib.cnc_allclibhndl3(b'10.100.126.40', 8193, 10, byref(handle))
 # print(type(ret))
 # print(ret)
 # print(handle)
